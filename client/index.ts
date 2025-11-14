@@ -1,6 +1,7 @@
 import event from "./utils";
 
 let open = false;
+let freezeInterval: NodeJS.Timeout;
 
 // set client Weather
 function setWeather(args: string) {
@@ -9,7 +10,6 @@ function setWeather(args: string) {
 
 // Change NUI State -> show | hide
 function changeNUIState(state: boolean) {
-    SetNuiFocusKeepInput(state);
     SetNuiFocus(state, state);
 
     const hour = GetClockHours()
@@ -53,11 +53,32 @@ RegisterNuiCallback("setMinute", (data: number) => {
     NetworkOverrideClockTime(GetClockHours(), minute, 0);
 })
 
+// Callback to freeze and unfreeze time
+RegisterNuiCallback("freezeTime", (data: number) => {
+    if (freezeInterval) {
+        clearInterval(freezeInterval);
+    }
+    freezeInterval = setInterval(() => {
+        NetworkOverrideClockTime(GetClockHours(), GetClockMinutes(), 0);
+    }, 100)
+})
+
+RegisterNuiCallback("unfreezeTime", () => {
+    clearInterval(freezeInterval);
+})
+
+// Callback to hideUI (default key -> Escape)
+RegisterNuiCallback("hideUI", () => {
+    open = false;
+    changeNUIState(open);
+})
+
 // Set resource command
 RegisterCommand("clima", () => {
     open = !open;
     changeNUIState(open);
 }, false)
+
 
 RegisterNuiCallbackType("setWeather")
 on(event("setWeather"), setWeather)

@@ -5,6 +5,7 @@
   <script src="./tailwindcss.js"></script>
   <script defer src="./listener.js" type="text/javascript"></script>
   <script defer src="./alpine.js"></script>
+  <script src="./app.js"></script>
   <style>
     :root {
       --scroll-thumb: rgba(59, 130, 246, 0.20);
@@ -43,12 +44,12 @@
   </style>
 </head>
 
-<body>
+<body x-data="__weather" @keyup.esc="hideUI()" x-show="show">
   <div id="container" class="bg-[#272727] rounded-xl fixed top-[25%] left-[3%] text-left flex flex-col">
     <div
       class="bg-blue-700/20 text-center flex flex-col justify-center align-center text-lg rounded-t-xl pl-12 pr-12 pt-2 pb-2">
-      <p class="font-bold text-xl text-blue-600">Environment Control</p>
-      <p class="text-xs text-blue-200">Adjust the servers's time and weather.</p>
+      <p class="font-bold text-xl text-blue-600">Editor</p>
+      <p class="text-xs text-blue-200">Configurar tempo e clima.</p>
     </div>
     <div class="text-lg flex flex-col rounded-b-xl bg-blue-500/10 p-3 gap-3">
       <div class="rounded-lg bg-blue-500/20 pt-4 pb-4 pl-4 pr-2 px-3">
