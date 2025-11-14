@@ -5,6 +5,7 @@ let freezeInterval: NodeJS.Timeout;
 
 // set client Weather
 function setWeather(args: string) {
+    console.log(args);
     SetOverrideWeather(args);
 }
 
@@ -81,4 +82,4 @@ RegisterCommand("clima", () => {
 
 
 RegisterNuiCallbackType("setWeather")
-on(event("setWeather"), setWeather)
+on(event("__cfx_nui:setWeather"), setWeather)

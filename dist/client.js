@@ -7,6 +7,7 @@ function event(name) {
 var open = false;
 var freezeInterval;
 function setWeather(args) {
+  console.log(args);
   SetOverrideWeather(args);
 }
 function changeNUIState(state) {
@@ -63,4 +64,4 @@ RegisterCommand("clima", () => {
   changeNUIState(open);
 }, false);
 RegisterNuiCallbackType("setWeather");
-on(event("setWeather"), setWeather);
+on(event("__cfx_nui:setWeather"), setWeather);

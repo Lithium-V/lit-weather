@@ -43,31 +43,31 @@
   </style>
 </head>
 
-<body x-data="__weather" @keyup.esc="hideUI()" x-show="show">
-  <div id="container" class="bg-[#272727] rounded-xl fixed top-[25%] left-[3%] text-left flex flex-col">
+<body x-data="__weather" @keyup.esc="hideUI()" x-show="show" class="select-none">
+  <div class="bg-[#272727] rounded-xl fixed top-[25%] left-[3%] text-left flex flex-col">
     <div
       class="bg-blue-700/20 text-center flex flex-col justify-center align-center text-lg rounded-t-xl pl-12 pr-12 pt-2 pb-2">
       <p class="font-bold text-xl text-blue-600">Editor</p>
       <p class="text-xs text-blue-200">Configurar tempo e clima.</p>
     </div>
     <div class="text-lg flex flex-col rounded-b-xl bg-blue-500/10 p-3 gap-3">
-      <div class="rounded-lg bg-blue-500/20 pt-4 pb-4 pl-4 pr-2 px-3">
+      <div class="rounded-lg bg-blue-500/20 pt-4 pb-4 pl-2 pr-2 px-3">
         <div class="flex items-center text-white ">
           <img src="https://i.ibb.co/hRpX8qKg/relogio.png" class="w-5 h-5" alt="Relógio">
-          <p class="font-semibold text-base">Time Settings</p>
+          <p class="font-semibold text-base">Configurar Hora</p>
         </div>
         <div class="container flex flex-col pt-4 gap-2">
           <div class="flex flex-row">
             <div class="flex font-semibold flex-row text-gray-400 text-xs pr-1">
-              <p>Hour:</p>
+              <p>Hora:</p>
             </div>
             <div class="rounded-sm bg-[rgb(41,48,60)] flex font-sans items-center justify-center">
-              <p class="value text-orange-400 text-xs font-bold">12</p>
+              <p class="value text-orange-400 text-xs font-bold" x-text="hour.padStart(2, '0')"></p>
             </div>
           </div>
 
           <div class="flex font-sans flex-row items-center text-gray-400 text-xs px-1">
-            <input type="range" id="ranger_hour" min="0" max="23" value="12" class="w-full h-[5px] appearance-none rounded-md outline-none bg-[rgb(41,48,60)]
+            <input x-model="hour" type="range" id="ranger_hour" min="0" max="23" value="12" class="w-full h-[5px] appearance-none rounded-md outline-none bg-[rgb(41,48,60)]
             [&::-webkit-slider-thumb]:appearance-none
           [&::-webkit-slider-thumb]:bg-[#3b53a3]
             [&::-webkit-slider-thumb]:w-[12px]
@@ -75,47 +75,19 @@
             [&::-webkit-slider-thumb]:rounded-full
             [&::-webkit-slider-thumb]:cursor-pointer">
           </div>
-          <script>
-            let slider = document.getElementById("ranger_hour");
-            let value = document.querySelector('.value');
-
-            value.innerHTML = slider.value;
-
-            slider.addEventListener('input',
-              function () {
-                value.textContent = this.value;
-              })
-          </script>
-          <script>
-            const slider_hour_servidor = document.getElementById("ranger_hour");
-            const value_hour_servidor = document.querySelector(".value");
-
-            slider_hour_servidor.addEventListener("input", function () {
-              const hour = this.value;
-              value_hour_servidor.textContent = hour.padStart(2, '0');
-
-              // Envia pro client.lua
-              fetch(`https://${GetParentResourceName()}/setHour`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(hour)
-              });
-            });
-
-          </script>
         </div>
         <div class="container flex flex-col pt-5 gap-2">
           <div class="flex flex-row">
             <div class="flex font-semibold flex-row text-gray-400 text-xs pr-1">
-              <p>Minute:</p>
+              <p>Minutos:</p>
             </div>
             <div class="rounded-sm bg-[rgb(41,48,60)] flex font-sans items-center justify-center">
-              <p class="value_minute text-orange-400 text-xs font-bold">30</p>
+              <p class="value_minute text-orange-400 text-xs font-bold" x-text="minute.padStart(2, '0')"></p>
             </div>
           </div>
 
           <div class="flex font-sans flex-row items-center text-gray-400 text-xs px-1">
-            <input type="range" id="ranger_minute" min="0" max="59" value="00" class="w-full h-[5px] appearance-none rounded-md outline-none bg-[rgb(41,48,60)]
+            <input x-model="minute" type="range" id="ranger_minute" min="0" max="59" value="00" class="w-full h-[5px] appearance-none rounded-md outline-none bg-[rgb(41,48,60)]
             [&::-webkit-slider-thumb]:appearance-none
             [&::-webkit-slider-thumb]:bg-[#3b53a3]
             [&::-webkit-slider-thumb]:w-[12px]
@@ -123,52 +95,24 @@
             [&::-webkit-slider-thumb]:rounded-full
             [&::-webkit-slider-thumb]:cursor-pointer">
           </div>
-          <script>
-            let slider_minute = document.getElementById("ranger_minute");
-            let value_minute = document.querySelector('.value_minute');
-
-            value_minute.innerHTML = slider_minute.value;
-
-            slider_minute.addEventListener('input',
-              function () {
-                value_minute.textContent = this.value;
-              })
-          </script>
-          <script>
-            const slider_minute_servidor = document.getElementById("ranger_minute");
-            const value_minute_servidor = document.querySelector(".value_minute");
-
-            slider_minute_servidor.addEventListener("input", function () {
-              const minute = this.value;
-              value_minute_servidor.textContent = minute.padStart(2, '0');
-
-              // Envia pro client.lua
-              fetch(`https://${GetParentResourceName()}/setMinute`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(minute)
-              });
-            });
-
-          </script>
 
         </div>
-        <div class="flex flex-row gap-2 pt-5">
+        <div class=" flex flex-row gap-2 pt-5">
           <button
-            class="flex-1 rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] text-sm text-center p-2"
-            id="Morning">Morning
+            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] px-3"
+            id="Morning">Manhã
           </button>
           <button
-            class="flex-1 rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] text-sm text-center p-2"
-            id="Noon">Noon
+            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] px-3"
+            id="Noon">Dia
           </button>
           <button
-            class="flex-1 rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] text-sm text-center p-2"
-            id="Evening">Evening
+            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] px-3"
+            id="Evening">Tarde
           </button>
           <button
-            class="flex-1 rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] text-sm text-center p-2"
-            id="Night">Night
+            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] px-3"
+            id="Night">Noite
           </button>
         </div>
         <script>
@@ -211,21 +155,21 @@
           });
         </script>
       </div>
-      <div class="rounded-lg bg-blue-500/20 pt-4 pb-4 pl-4 pr-2 px-3">
+      <div class="rounded-lg bg-blue-500/20 pt-4 pb-4 pl-2 pr-2 px-3">
         <div class="flex items-center text-white ">
           <img src="https://i.ibb.co/TMPQm9YL/amanhecer.png" class="w-5 h-5" alt="Amanhecer">
-          <p class="font-semibold text-base">Weather Settings</p>
+          <p class="font-semibold text-base">Configurar Clima</p>
         </div>
 
         <div class="flex flex-col pt-2 gap-2 w-full">
           <div>
-            <p class="font-semibold  text-gray-400 text-xs pr-1">Select Weather</p>
+            <p class="font-semibold  text-gray-400 text-xs pr-1">Selecionar Clima</p>
           </div>
           <div class=" relative inline-block text-left">
             <!-- Botão do Dropdown -->
             <button id="dropdownButton"
               class="w-full inline-flex justify-center rounded-md border border-gray-500 bg-[rgb(41,48,60)] px-4 py-2 text-sm font-medium text-gray-300 hover:bg-[rgb(50,58,72)] focus:outline-none focus:ring-2 focus:ring-cyan-500">
-              Selecionar Hora
+              Selecione um clima
               <svg class="-mr-1 ml-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                 fill="currentColor">
                 <path fill-rule="evenodd"
@@ -239,39 +183,39 @@
               class="absolute left-1/2 -translate-x-1/2 z-10 mt-2 w-[70%] rounded-md bg-[rgb(41,48,60)] border border-gray-500 shadow-lg ring-1 ring-black ring-opacity-5 hidden">
               <div class="py-1 max-h-[150px] overflow-y-auto scroll-blue">
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="CLEAR" new-weather="Clear Sky">Clear Sky</button>
+                  value="CLEAR" new-weather="Clear Sky">Céu Limpo</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="EXTRASUNNY" new-weather="Extrasunny">Extrasunny</button>
+                  value="EXTRASUNNY" new-weather="Extrasunny">Ensolarado</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="CLOUDS" new-weather="Clouds">Clouds</button>
+                  value="CLOUDS" new-weather="Clouds">Nuvens</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="OVERCAST" new-weather="Overcast">Overcast</button>
+                  value="OVERCAST" new-weather="Overcast">Nublado</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="RAIN" new-weather="Rain">Rain</button>
+                  value="RAIN" new-weather="Rain">Chuva</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="CLEARING" new-weather="Clearing">Clearing</button>
+                  value="CLEARING" new-weather="Clearing">Limpando</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="THUNDER" new-weather="Thunder">Thunder</button>
+                  value="THUNDER" new-weather="Thunder">Tempestade</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="SMOG" new-weather="Smog">Smog</button>
+                  value="SMOG" new-weather="Smog">Neblina</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="FOGGY" new-weather="Foggy">Foggy</button>
+                  value="FOGGY" new-weather="Foggy">Névoa</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="XMAS" new-weather="Xmas">Xmas</button>
+                  value="XMAS" new-weather="Xmas">Natalino</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="SNOW" new-weather="Snow">Snow</button>
+                  value="SNOW" new-weather="Snow">Neve</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="SNOWLIGHT" new-weather="Snowlight">Snowlight</button>
+                  value="SNOWLIGHT" new-weather="Snowlight">Neve Limpa</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="BLIZZARD" new-weather="Blizzard">Blizzard</button>
+                  value="BLIZZARD" new-weather="Blizzard">Gelo</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="HALLOWEEN" new-weather="Halloween">Halloween</button>
+                  value="HALLOWEEN" new-weather="Halloween">Dia das bruxas</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="NEUTRAL" new-weather="Neutral">Neutral</button>
+                  value="NEUTRAL" new-weather="Neutral">Neutro</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="RAIN_HALLOWEEN" new-weather="Rain Halloween">Rain Halloween</button>
+                  value="RAIN_HALLOWEEN" new-weather="Rain Halloween">Chuva Dia das bruxas</button>
                 <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
-                  value="SNOW_HALLOWEEN" new-weather="Snow Halloween">Snow Halloween</button>
+                  value="SNOW_HALLOWEEN" new-weather="Snow Halloween">Neve Dia das bruxas</button>
               </div>
             </div>
           </div>
