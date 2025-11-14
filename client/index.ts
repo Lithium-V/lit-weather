@@ -24,3 +24,19 @@ function changeNUIState(state: boolean) {
         }
     )
 }
+
+// Callback for default time
+RegisterNuiCallback("setTimePreset", (data: string) => {
+    let currentHour;
+    let currentMinute;
+    let preset = String(data);
+    const presets: { [key: string]: [number, number] } = {
+        Morning: [6, 0],
+        Noon: [12, 0],
+        Evening: [18, 0],
+        Night: [23, 0],
+    };
+    [currentHour, currentMinute] = presets[preset] ?? [12, 0];
+
+    NetworkOverrideClockTime(currentHour, currentMinute, 0);
+})
