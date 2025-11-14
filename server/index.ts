@@ -1,1 +1,1 @@
-console.log("flk-base server started");
+console.log("lit-weather server started");

@@ -1,3 +1,2 @@
-(() => {
-  console.log("lit-weather server started");
-})();
+// server/index.ts
+console.log("lit-weather server started");

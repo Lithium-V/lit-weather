@@ -2,15 +2,29 @@ import event from "./utils";
 
 let open = false;
 let freezeInterval: NodeJS.Timeout;
+let blockESC = true;
 
 // set client Weather
 function setWeather(args: string) {
-    console.log(args);
     SetOverrideWeather(args);
+}
+
+// Block Some input while NUI is open
+function blockInput() {
+    DisablePlayerFiring(PlayerPedId(), true);
+    DisableControlAction(0, 140, true);
+    DisableControlAction(0, 141, true);
+    DisableControlAction(0, 142, true);
+    DisableControlAction(0, 1, true);
+    DisableControlAction(0, 2, true);
+    DisableControlAction(0, 24, true);
+    DisableControlAction(0, 25, true);
 }
 
 // Change NUI State -> show | hide
 function changeNUIState(state: boolean) {
+
+    SetNuiFocusKeepInput(state);
     SetNuiFocus(state, state);
 
     const hour = GetClockHours()
@@ -26,6 +40,7 @@ function changeNUIState(state: boolean) {
             }
         }
     )
+
 }
 
 // Callback for default time and set time
@@ -87,3 +102,17 @@ RegisterCommand("clima", () => {
     open = !open;
     changeNUIState(open);
 }, false)
+
+// Add Shortcut for clima command
+RegisterKeyMapping("clima", "Abrir Menu de Clima", "keyboard", "F5")
+
+setTick(() => {
+    if (IsPauseMenuActive()) {
+        open = false
+        changeNUIState(open);
+    }
+
+    if (open) {
+        blockInput()
+    }
+})

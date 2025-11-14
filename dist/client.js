@@ -2,10 +2,20 @@
 var open = false;
 var freezeInterval;
 function setWeather(args) {
-  console.log(args);
   SetOverrideWeather(args);
 }
+function blockInput() {
+  DisablePlayerFiring(PlayerPedId(), true);
+  DisableControlAction(0, 140, true);
+  DisableControlAction(0, 141, true);
+  DisableControlAction(0, 142, true);
+  DisableControlAction(0, 1, true);
+  DisableControlAction(0, 2, true);
+  DisableControlAction(0, 24, true);
+  DisableControlAction(0, 25, true);
+}
 function changeNUIState(state) {
+  SetNuiFocusKeepInput(state);
   SetNuiFocus(state, state);
   const hour = GetClockHours();
   const min = GetClockMinutes();
@@ -62,3 +72,13 @@ RegisterCommand("clima", () => {
   open = !open;
   changeNUIState(open);
 }, false);
+RegisterKeyMapping("clima", "Abrir Menu de Clima", "keyboard", "F5");
+setTick(() => {
+  if (IsPauseMenuActive()) {
+    open = false;
+    changeNUIState(open);
+  }
+  if (open) {
+    blockInput();
+  }
+});
