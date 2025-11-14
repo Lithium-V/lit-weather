@@ -1,0 +1,17 @@
+{
+  "name": "race",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "bun run build:client && bun run build:server",
+    "dev:server": "bun build --watch --outfile=dist/server.js ./server/index.ts",
+    "dev:client": "bun build --watch --outfile=dist/client.js ./client/index.ts",
+    "build:client": "bun build --minify --outfile=dist/client.js ./client/index.ts",
+    "build:server": "bun build --format=iife --minify --outfile=dist/server.js ./server/index.ts"
+  },
+  "devDependencies": {
+    "@citizenfx/client": "^2.0.13659-1",
+    "@citizenfx/server": "^2.0.13659-1",
+    "@types/node": "^22.13.11"
+  }
+}

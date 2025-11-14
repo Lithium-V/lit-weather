@@ -1,0 +1,4 @@
+
+*.config.js
+*.lock
+node_modules/
