@@ -1,8 +1,3 @@
-// client/utils.ts
-function event(name) {
-  return `lit-weather:${name}`;
-}
-
 // client/index.ts
 var open = false;
 var freezeInterval;
@@ -35,6 +30,7 @@ RegisterNuiCallback("setTimePreset", (data) => {
   };
   [currentHour, currentMinute] = presets[preset] ?? [12, 0];
   NetworkOverrideClockTime(currentHour, currentMinute, 0);
+  changeNUIState(open);
 });
 RegisterNuiCallback("setHour", (data) => {
   let hour = Number(data);
@@ -44,7 +40,8 @@ RegisterNuiCallback("setMinute", (data) => {
   let minute = Number(data);
   NetworkOverrideClockTime(GetClockHours(), minute, 0);
 });
-RegisterNuiCallback("freezeTime", (data) => {
+RegisterNuiCallback("freezeTime", () => {
+  console.log("Freeze Time");
   if (freezeInterval) {
     clearInterval(freezeInterval);
   }
@@ -53,15 +50,15 @@ RegisterNuiCallback("freezeTime", (data) => {
   }, 100);
 });
 RegisterNuiCallback("unfreezeTime", () => {
+  console.log("Unfreeze Time");
   clearInterval(freezeInterval);
 });
 RegisterNuiCallback("hideUI", () => {
   open = false;
   changeNUIState(open);
 });
+RegisterNuiCallback("setWeather", setWeather);
 RegisterCommand("clima", () => {
   open = !open;
   changeNUIState(open);
 }, false);
-RegisterNuiCallbackType("setWeather");
-on(event("__cfx_nui:setWeather"), setWeather);

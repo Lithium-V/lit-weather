@@ -42,6 +42,7 @@ RegisterNuiCallback("setTimePreset", (data: string) => {
     [currentHour, currentMinute] = presets[preset] ?? [12, 0];
 
     NetworkOverrideClockTime(currentHour, currentMinute, 0);
+    changeNUIState(open);
 })
 
 RegisterNuiCallback("setHour", (data: number) => {
@@ -55,7 +56,8 @@ RegisterNuiCallback("setMinute", (data: number) => {
 })
 
 // Callback to freeze and unfreeze time
-RegisterNuiCallback("freezeTime", (data: number) => {
+RegisterNuiCallback("freezeTime", () => {
+    console.log("Freeze Time");
     if (freezeInterval) {
         clearInterval(freezeInterval);
     }
@@ -65,6 +67,7 @@ RegisterNuiCallback("freezeTime", (data: number) => {
 })
 
 RegisterNuiCallback("unfreezeTime", () => {
+    console.log("Unfreeze Time");
     clearInterval(freezeInterval);
 })
 
@@ -74,12 +77,13 @@ RegisterNuiCallback("hideUI", () => {
     changeNUIState(open);
 })
 
+RegisterNuiCallback("setWeather", setWeather)
+
+
+
+
 // Set resource command
 RegisterCommand("clima", () => {
     open = !open;
     changeNUIState(open);
 }, false)
-
-
-RegisterNuiCallbackType("setWeather")
-on(event("__cfx_nui:setWeather"), setWeather)
