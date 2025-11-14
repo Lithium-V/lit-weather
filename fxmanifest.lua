@@ -17,4 +17,5 @@ files {
 	'html/index.html',
 	'html/alpine.js',
 	'html/tailwindcss.js',
+	'html/app.js',
 }

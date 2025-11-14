@@ -1,14 +1,317 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <script defer src="/html/alpine.js"></script>
-    <script src="/html/tailwindcss.js"></script>
-  </head>
-  <body>
-    <!--body-->
-  </body>
+<html>
+
+<head>
+  <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+  <script src="./tailwindcss.js"></script>
+  <script defer src="./listener.js" type="text/javascript"></script>
+  <script defer src="./alpine.js"></script>
+  <style>
+    :root {
+      --scroll-thumb: rgba(59, 130, 246, 0.20);
+      --scroll-thumb-hover: rgba(59, 130, 246, 0.35);
+    }
+
+    .scroll-blue {
+      scrollbar-color: var(--scroll-thumb) transparent;
+    }
+
+    .scroll-blue::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .scroll-blue::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    .scroll-blue::-webkit-scrollbar-thumb {
+      background-color: var(--scroll-thumb);
+      border-radius: 9999px;
+    }
+
+    .scroll-blue::-webkit-scrollbar-thumb:hover {
+      background-color: var(--scroll-thumb-hover);
+    }
+
+    .scroll-blue::-webkit-scrollbar-track-piece {
+      background-color: transparent;
+    }
+
+    .scroll-blue::-webkit-scrollbar-corner {
+      background-color: transparent;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container" class="bg-[#272727] rounded-xl fixed top-[25%] left-[3%] text-left flex flex-col">
+    <div
+      class="bg-blue-700/20 text-center flex flex-col justify-center align-center text-lg rounded-t-xl pl-12 pr-12 pt-2 pb-2">
+      <p class="font-bold text-xl text-blue-600">Environment Control</p>
+      <p class="text-xs text-blue-200">Adjust the servers's time and weather.</p>
+    </div>
+    <div class="text-lg flex flex-col rounded-b-xl bg-blue-500/10 p-3 gap-3">
+      <div class="rounded-lg bg-blue-500/20 pt-4 pb-4 pl-4 pr-2 px-3">
+        <div class="flex items-center text-white ">
+          <img src="https://i.ibb.co/hRpX8qKg/relogio.png" class="w-5 h-5" alt="Relógio">
+          <p class="font-semibold text-base">Time Settings</p>
+        </div>
+        <div class="container flex flex-col pt-4 gap-2">
+          <div class="flex flex-row">
+            <div class="flex font-semibold flex-row text-gray-400 text-xs pr-1">
+              <p>Hour:</p>
+            </div>
+            <div class="rounded-sm bg-[rgb(41,48,60)] flex font-sans items-center justify-center">
+              <p class="value text-orange-400 text-xs font-bold">12</p>
+            </div>
+          </div>
+
+          <div class="flex font-sans flex-row items-center text-gray-400 text-xs px-1">
+            <input type="range" id="ranger_hour" min="0" max="23" value="12" class="w-full h-[5px] appearance-none rounded-md outline-none bg-[rgb(41,48,60)]
+            [&::-webkit-slider-thumb]:appearance-none
+          [&::-webkit-slider-thumb]:bg-[#3b53a3]
+            [&::-webkit-slider-thumb]:w-[12px]
+            [&::-webkit-slider-thumb]:h-[12px]
+            [&::-webkit-slider-thumb]:rounded-full
+            [&::-webkit-slider-thumb]:cursor-pointer">
+          </div>
+          <script>
+            let slider = document.getElementById("ranger_hour");
+            let value = document.querySelector('.value');
+
+            value.innerHTML = slider.value;
+
+            slider.addEventListener('input',
+              function () {
+                value.textContent = this.value;
+              })
+          </script>
+          <script>
+            const slider_hour_servidor = document.getElementById("ranger_hour");
+            const value_hour_servidor = document.querySelector(".value");
+
+            slider_hour_servidor.addEventListener("input", function () {
+              const hour = this.value;
+              value_hour_servidor.textContent = hour.padStart(2, '0');
+
+              // Envia pro client.lua
+              fetch(`https://${GetParentResourceName()}/setHour`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(hour)
+              });
+            });
+
+          </script>
+        </div>
+        <div class="container flex flex-col pt-5 gap-2">
+          <div class="flex flex-row">
+            <div class="flex font-semibold flex-row text-gray-400 text-xs pr-1">
+              <p>Minute:</p>
+            </div>
+            <div class="rounded-sm bg-[rgb(41,48,60)] flex font-sans items-center justify-center">
+              <p class="value_minute text-orange-400 text-xs font-bold">30</p>
+            </div>
+          </div>
+
+          <div class="flex font-sans flex-row items-center text-gray-400 text-xs px-1">
+            <input type="range" id="ranger_minute" min="0" max="59" value="00" class="w-full h-[5px] appearance-none rounded-md outline-none bg-[rgb(41,48,60)]
+            [&::-webkit-slider-thumb]:appearance-none
+            [&::-webkit-slider-thumb]:bg-[#3b53a3]
+            [&::-webkit-slider-thumb]:w-[12px]
+            [&::-webkit-slider-thumb]:h-[12px]
+            [&::-webkit-slider-thumb]:rounded-full
+            [&::-webkit-slider-thumb]:cursor-pointer">
+          </div>
+          <script>
+            let slider_minute = document.getElementById("ranger_minute");
+            let value_minute = document.querySelector('.value_minute');
+
+            value_minute.innerHTML = slider_minute.value;
+
+            slider_minute.addEventListener('input',
+              function () {
+                value_minute.textContent = this.value;
+              })
+          </script>
+          <script>
+            const slider_minute_servidor = document.getElementById("ranger_minute");
+            const value_minute_servidor = document.querySelector(".value_minute");
+
+            slider_minute_servidor.addEventListener("input", function () {
+              const minute = this.value;
+              value_minute_servidor.textContent = minute.padStart(2, '0');
+
+              // Envia pro client.lua
+              fetch(`https://${GetParentResourceName()}/setMinute`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(minute)
+              });
+            });
+
+          </script>
+
+        </div>
+        <div class="flex flex-row gap-2 pt-5">
+          <button
+            class="flex-1 rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] text-sm text-center p-2"
+            id="Morning">Morning
+          </button>
+          <button
+            class="flex-1 rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] text-sm text-center p-2"
+            id="Noon">Noon
+          </button>
+          <button
+            class="flex-1 rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] text-sm text-center p-2"
+            id="Evening">Evening
+          </button>
+          <button
+            class="flex-1 rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] text-sm text-center p-2"
+            id="Night">Night
+          </button>
+        </div>
+        <script>
+          const buttons = document.querySelectorAll('button');
+          const sliderHour = document.getElementById('ranger_hour');
+          const sliderMinute = document.getElementById('ranger_minute');
+          const valueHour = document.querySelector('.value');
+          const valueMinute = document.querySelector('.value_minute');
+
+          // função auxiliar pra atualizar sliders e valores na UI
+          function updateSliders(hour, minute) {
+            sliderHour.value = hour;
+            sliderMinute.value = minute;
+
+            valueHour.textContent = hour.toString().padStart(2, '0');
+            valueMinute.textContent = minute.toString().padStart(2, '0');
+          }
+
+          // define presets fixos
+          const presets = {
+            Morning: { hour: 6, minute: 0 },
+            Noon: { hour: 12, minute: 0 },
+            Evening: { hour: 18, minute: 0 },
+            Night: { hour: 23, minute: 0 }
+          };
+
+          buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+              const preset = presets[btn.id];
+              if (!preset) return;
+
+              updateSliders(preset.hour, preset.minute);
+
+              fetch(`https://${GetParentResourceName()}/setTimePreset`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(btn.id)
+              });
+            });
+          });
+        </script>
+      </div>
+      <div class="rounded-lg bg-blue-500/20 pt-4 pb-4 pl-4 pr-2 px-3">
+        <div class="flex items-center text-white ">
+          <img src="https://i.ibb.co/TMPQm9YL/amanhecer.png" class="w-5 h-5" alt="Amanhecer">
+          <p class="font-semibold text-base">Weather Settings</p>
+        </div>
+
+        <div class="flex flex-col pt-2 gap-2 w-full">
+          <div>
+            <p class="font-semibold  text-gray-400 text-xs pr-1">Select Weather</p>
+          </div>
+          <div class=" relative inline-block text-left">
+            <!-- Botão do Dropdown -->
+            <button id="dropdownButton"
+              class="w-full inline-flex justify-center rounded-md border border-gray-500 bg-[rgb(41,48,60)] px-4 py-2 text-sm font-medium text-gray-300 hover:bg-[rgb(50,58,72)] focus:outline-none focus:ring-2 focus:ring-cyan-500">
+              Selecionar Hora
+              <svg class="-mr-1 ml-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.584l3.71-4.354a.75.75 0 111.14.976l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+
+            <!-- Conteúdo do Dropdown -->
+            <div id="dropdownMenu"
+              class="absolute left-1/2 -translate-x-1/2 z-10 mt-2 w-[70%] rounded-md bg-[rgb(41,48,60)] border border-gray-500 shadow-lg ring-1 ring-black ring-opacity-5 hidden">
+              <div class="py-1 max-h-[150px] overflow-y-auto scroll-blue">
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="CLEAR" new-weather="Clear Sky">Clear Sky</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="EXTRASUNNY" new-weather="Extrasunny">Extrasunny</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="CLOUDS" new-weather="Clouds">Clouds</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="OVERCAST" new-weather="Overcast">Overcast</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="RAIN" new-weather="Rain">Rain</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="CLEARING" new-weather="Clearing">Clearing</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="THUNDER" new-weather="Thunder">Thunder</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="SMOG" new-weather="Smog">Smog</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="FOGGY" new-weather="Foggy">Foggy</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="XMAS" new-weather="Xmas">Xmas</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="SNOW" new-weather="Snow">Snow</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="SNOWLIGHT" new-weather="Snowlight">Snowlight</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="BLIZZARD" new-weather="Blizzard">Blizzard</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="HALLOWEEN" new-weather="Halloween">Halloween</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="NEUTRAL" new-weather="Neutral">Neutral</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="RAIN_HALLOWEEN" new-weather="Rain Halloween">Rain Halloween</button>
+                <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  value="SNOW_HALLOWEEN" new-weather="Snow Halloween">Snow Halloween</button>
+              </div>
+            </div>
+          </div>
+
+          <script>
+            const dropdownButton = document.getElementById("dropdownButton");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+
+            // Mostra/oculta o menu
+            dropdownButton.addEventListener("click", () => {
+              dropdownMenu.classList.toggle("hidden");
+            });
+
+            // Fecha ao clicar fora
+            window.addEventListener("click", (e) => {
+              if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.add("hidden");
+              }
+            });
+
+            // Evento para clique nas opções
+            dropdownMenu.querySelectorAll("button").forEach(btn => {
+              btn.addEventListener("click", () => {
+                const weather = btn.getAttribute("new-weather");
+                const weather_value = btn.getAttribute("value");
+                dropdownButton.textContent = `${weather}`;
+                dropdownMenu.classList.add("hidden");
+
+                // Aqui tu pode mandar pro NUI se quiser
+                fetch(`https://${GetParentResourceName()}/setWeather`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(weather_value)
+                });
+              });
+            });
+          </script>
+
+        </div>
+      </div>
+</body>
+
 </html>
