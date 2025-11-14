@@ -1,3 +1,5 @@
+import event from "./utils";
+
 let open = false;
 
 // set client Weather
@@ -25,7 +27,7 @@ function changeNUIState(state: boolean) {
     )
 }
 
-// Callback for default time
+// Callback for default time and set time
 RegisterNuiCallback("setTimePreset", (data: string) => {
     let currentHour;
     let currentMinute;
@@ -40,3 +42,22 @@ RegisterNuiCallback("setTimePreset", (data: string) => {
 
     NetworkOverrideClockTime(currentHour, currentMinute, 0);
 })
+
+RegisterNuiCallback("setHour", (data: number) => {
+    let hour = Number(data);
+    NetworkOverrideClockTime(hour, GetClockSeconds(), 0);
+})
+
+RegisterNuiCallback("setMinute", (data: number) => {
+    let minute = Number(data);
+    NetworkOverrideClockTime(GetClockHours(), minute, 0);
+})
+
+// Set resource command
+RegisterCommand("clima", () => {
+    open = !open;
+    changeNUIState(open);
+}, false)
+
+RegisterNuiCallbackType("setWeather")
+on(event("setWeather"), setWeather)
