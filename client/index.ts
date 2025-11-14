@@ -2,7 +2,6 @@ import event from "./utils";
 
 let open = false;
 let freezeInterval: NodeJS.Timeout;
-let blockESC = true;
 
 // set client Weather
 function setWeather(args: string) {
@@ -93,9 +92,6 @@ RegisterNuiCallback("hideUI", () => {
 })
 
 RegisterNuiCallback("setWeather", setWeather)
-
-
-
 
 // Set resource command
 RegisterCommand("clima", () => {
