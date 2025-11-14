@@ -51,7 +51,6 @@ RegisterNuiCallback("setMinute", (data) => {
   NetworkOverrideClockTime(GetClockHours(), minute, 0);
 });
 RegisterNuiCallback("freezeTime", () => {
-  console.log("Freeze Time");
   if (freezeInterval) {
     clearInterval(freezeInterval);
   }
@@ -60,7 +59,6 @@ RegisterNuiCallback("freezeTime", () => {
   }, 100);
 });
 RegisterNuiCallback("unfreezeTime", () => {
-  console.log("Unfreeze Time");
   clearInterval(freezeInterval);
 });
 RegisterNuiCallback("hideUI", () => {

@@ -7,8 +7,8 @@
   <script src="./app.js" type="text/javascript"></script>
   <style>
     :root {
-      --scroll-thumb: rgba(59, 130, 246, 0.20);
-      --scroll-thumb-hover: rgba(59, 130, 246, 0.35);
+      --scroll-thumb: rgba(113, 113, 122, 0.20);
+      --scroll-thumb-hover: rgba(113, 113, 122, 0.35);
     }
 
     .scroll-blue {
@@ -44,15 +44,15 @@
 </head>
 
 <body x-data="__weather" @keyup.esc="timeDropdown ? timeDropdown = false : hideUI()" x-show="show" class="select-none">
-  <div class="bg-[#272727] rounded-xl fixed top-[25%] left-[3%] text-left flex flex-col">
+  <div class="bg-zinc-900 rounded-xl fixed top-[25%] left-[3%] text-left flex flex-col">
     <div
-      class="bg-blue-700/20 text-center flex flex-col justify-center align-center text-lg rounded-t-xl pl-12 pr-12 pt-2 pb-2">
-      <p class="font-bold text-xl text-blue-600">Editor</p>
-      <p class="text-xs text-blue-200">Configurar tempo e clima.</p>
+      class="bg-zinc-700/20 text-center flex flex-col justify-center align-center text-lg rounded-t-xl pl-12 pr-12 pt-2 pb-2">
+      <p class="font-bold text-xl text-zinc-100">Editor</p>
+      <p class="text-xs text-zinc-400">Configurar tempo e clima.</p>
     </div>
-    <div class="text-lg flex flex-col rounded-b-xl justify-between bg-blue-500/10 p-3 gap-3">
-      <div class="rounded-lg bg-blue-500/20 pt-4 pb-4 pl-2 pr-2 px-3">
-        <div class="flex items-center text-white ">
+    <div class="text-lg flex flex-col rounded-b-xl justify-between bg-zinc-700/10 p-3 gap-3">
+      <div class="rounded-lg bg-zinc-700/20 pt-4 pb-4 pl-2 pr-2 px-3">
+        <div class="flex items-center text-zinc-100 ">
           <img src="https://i.ibb.co/hRpX8qKg/relogio.png" class="w-5 h-5" alt="Relógio">
           <p class="grow font-semibold text-base">Configurar Hora</p>
           <button class=" " @click="freezeTime()" x-text="isFreezed ? '🔒' : '🔓'">
@@ -60,18 +60,18 @@
         </div>
         <div class="container flex flex-col pt-4 gap-2">
           <div class="flex flex-row">
-            <div class="flex font-semibold flex-row text-gray-400 text-xs pr-1">
+            <div class="flex font-semibold flex-row text-zinc-400 text-xs pr-1">
               <p>Hora:</p>
             </div>
-            <div class="rounded-sm bg-[rgb(41,48,60)] flex font-sans items-center justify-center">
-              <p class="value text-orange-400 text-xs font-bold" x-text="hour.padStart(2, '0')"></p>
+            <div class="rounded-sm bg-zinc-800 flex font-sans items-center justify-center">
+              <p class="value text-zinc-200 text-xs font-bold" x-text="hour.padStart(2, '0')"></p>
             </div>
           </div>
 
-          <div class="flex font-sans flex-row items-center text-gray-400 text-xs px-1">
-            <input x-model="hour" type="range" id="ranger_hour" min="0" max="23" value="12" class="w-full h-[5px] appearance-none rounded-md outline-none bg-[rgb(41,48,60)]
+          <div class="flex font-sans flex-row items-center text-zinc-400 text-xs px-1">
+            <input x-model="hour" type="range" id="ranger_hour" min="0" max="23" value="12" class="w-full h-[5px] appearance-none rounded-md outline-none bg-zinc-800
             [&::-webkit-slider-thumb]:appearance-none
-          [&::-webkit-slider-thumb]:bg-[#3b53a3]
+          [&::-webkit-slider-thumb]:bg-zinc-500
             [&::-webkit-slider-thumb]:w-[12px]
             [&::-webkit-slider-thumb]:h-[12px]
             [&::-webkit-slider-thumb]:rounded-full
@@ -80,18 +80,18 @@
         </div>
         <div class="container flex flex-col pt-5 gap-2">
           <div class="flex flex-row">
-            <div class="flex font-semibold flex-row text-gray-400 text-xs pr-1">
+            <div class="flex font-semibold flex-row text-zinc-400 text-xs pr-1">
               <p>Minutos:</p>
             </div>
-            <div class="rounded-sm bg-[rgb(41,48,60)] flex font-sans items-center justify-center">
-              <p class="value_minute text-orange-400 text-xs font-bold" x-text="minute.padStart(2, '0')"></p>
+            <div class="rounded-sm bg-zinc-800 flex font-sans items-center justify-center">
+              <p class="value_minute text-zinc-200 text-xs font-bold" x-text="minute.padStart(2, '0')"></p>
             </div>
           </div>
 
-          <div class="flex font-sans flex-row items-center text-gray-400 text-xs px-1">
-            <input x-model="minute" type="range" id="ranger_minute" min="0" max="59" value="00" class="w-full h-[5px] appearance-none rounded-md outline-none bg-[rgb(41,48,60)]
+          <div class="flex font-sans flex-row items-center text-zinc-400 text-xs px-1">
+            <input x-model="minute" type="range" id="ranger_minute" min="0" max="59" value="00" class="w-full h-[5px] appearance-none rounded-md outline-none bg-zinc-800
             [&::-webkit-slider-thumb]:appearance-none
-            [&::-webkit-slider-thumb]:bg-[#3b53a3]
+            [&::-webkit-slider-thumb]:bg-zinc-500
             [&::-webkit-slider-thumb]:w-[12px]
             [&::-webkit-slider-thumb]:h-[12px]
             [&::-webkit-slider-thumb]:rounded-full
@@ -101,39 +101,39 @@
         </div>
         <div class=" flex flex-row gap-2 pt-5">
           <button
-            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] px-3"
+            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-zinc-600 text-zinc-300 bg-zinc-800 px-3"
             @click="setPreset('Morning')">Manhã
           </button>
           <button
-            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] px-3"
+            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-zinc-600 text-zinc-300 bg-zinc-800 px-3"
             @click="setPreset('Noon')">Dia
           </button>
           <button
-            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] px-3"
+            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-zinc-600 text-zinc-300 bg-zinc-800 px-3"
             @click="setPreset('Evening')">Tarde
           </button>
           <button
-            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-gray-400 text-gray-400 bg-[rgb(41,48,60)] px-3"
+            class="uppercase text-xs flex-1 min-w-0 py-2 flex items-center justify-center truncate rounded-md border border-zinc-600 text-zinc-300 bg-zinc-800 px-3"
             @click="setPreset('Night')">Noite
           </button>
         </div>
       </div>
-      <div class="rounded-lg bg-blue-500/20 pt-4 pb-4 pl-2 pr-2 px-3">
-        <div class="flex items-center text-white ">
+      <div class="rounded-lg bg-zinc-700/20 pt-4 pb-4 pl-2 pr-2 px-3">
+        <div class="flex items-center text-zinc-100 ">
           <img src="https://i.ibb.co/TMPQm9YL/amanhecer.png" class="w-5 h-5" alt="Amanhecer">
           <p class="font-semibold text-base">Configurar Clima</p>
         </div>
 
         <div class="flex flex-col pt-2 gap-2 w-full">
           <div>
-            <p class="font-semibold  text-gray-400 text-xs pr-1">Selecionar Clima</p>
+            <p class="font-semibold  text-zinc-400 text-xs pr-1">Selecionar Clima</p>
           </div>
           <div class=" relative inline-block text-left">
             <!-- Botão do Dropdown -->
             <button id="dropdownButton" @click="timeDropdown = !timeDropdown"
-              class="w-full inline-flex justify-center rounded-md border border-gray-500 bg-[rgb(41,48,60)] px-4 py-2 text-sm font-medium text-gray-300 hover:bg-[rgb(50,58,72)] focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              class="w-full inline-flex justify-center rounded-md border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-300 hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-500"
               x-text="climas[climaAtual] || 'Selecione um clima'">
-              <svg class="-mr-1 ml-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+              <svg class="-mr-1 ml-2 h-5 w-5 text-zinc-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                 fill="currentColor">
                 <path fill-rule="evenodd"
                   d="M5.23 7.21a.75.75 0 011.06.02L10 11.584l3.71-4.354a.75.75 0 111.14.976l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z"
@@ -143,49 +143,15 @@
 
             <!-- Conteúdo do Dropdown -->
             <div id="dropdownMenu" x-show="timeDropdown" @click.outside="timeDropdown = false"
-              class="absolute left-1/2 -translate-x-1/2 z-10 mt-2 w-[70%] rounded-md bg-[rgb(41,48,60)] border border-gray-500 shadow-lg ring-1 ring-black ring-opacity-5">
+              class="absolute left-1/2 -translate-x-1/2 z-10 mt-2 w-[70%] rounded-md bg-zinc-800 border border-zinc-600 shadow-lg ring-1 ring-black ring-opacity-5">
               <div class="py-1 max-h-[150px] overflow-y-auto scroll-blue">
                 <template x-for="(clima, key) in climas">
-                  <button class="block w-full text-center px-4 py-2 text-sm text-gray-300 hover:bg-[rgb(55,63,77)]"
+                  <button class="block w-full text-center px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700"
                     x-text="clima" @click="setWeather(key)"></button>
                 </template>
               </div>
             </div>
           </div>
-
-          <!-- <script>
-            const dropdownButton = document.getElementById("dropdownButton");
-            const dropdownMenu = document.getElementById("dropdownMenu");
-
-            // Mostra/oculta o menu
-            dropdownButton.addEventListener("click", () => {
-              dropdownMenu.classList.toggle("hidden");
-            });
-
-            // Fecha ao clicar fora
-            window.addEventListener("click", (e) => {
-              if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                dropdownMenu.classList.add("hidden");
-              }
-            });
-
-            // Evento para clique nas opções
-            dropdownMenu.querySelectorAll("button").forEach(btn => {
-              btn.addEventListener("click", () => {
-                const weather = btn.getAttribute("new-weather");
-                const weather_value = btn.getAttribute("value");
-                dropdownButton.textContent = `${weather}`;
-                dropdownMenu.classList.add("hidden");
-
-                // Aqui tu pode mandar pro NUI se quiser
-                fetch(`https://${GetParentResourceName()}/setWeather`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(weather_value)
-                });
-              });
-            });
-          </script> -->
 
         </div>
       </div>

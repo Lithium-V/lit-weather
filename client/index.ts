@@ -71,7 +71,6 @@ RegisterNuiCallback("setMinute", (data: number) => {
 
 // Callback to freeze and unfreeze time
 RegisterNuiCallback("freezeTime", () => {
-    console.log("Freeze Time");
     if (freezeInterval) {
         clearInterval(freezeInterval);
     }
@@ -81,7 +80,6 @@ RegisterNuiCallback("freezeTime", () => {
 })
 
 RegisterNuiCallback("unfreezeTime", () => {
-    console.log("Unfreeze Time");
     clearInterval(freezeInterval);
 })
 
